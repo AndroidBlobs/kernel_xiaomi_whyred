@@ -11,7 +11,7 @@
  * GNU General Public License for more details.
  */
 
-#include "sdm660.dtsi"
+#include "sdm660_tulip.dtsi"
 
 / {
 	model = "Qualcomm Technologies, Inc. SDM 636";
@@ -76,6 +76,6 @@
 
 /* GPU overrides */
 &msm_gpu {
-	/* Update GPU chip ID*/
-	qcom,chipid = <0x05000900>;
+		/* Update GPU chip ID*/
+		qcom,chipid = <0x05000900>;
 };

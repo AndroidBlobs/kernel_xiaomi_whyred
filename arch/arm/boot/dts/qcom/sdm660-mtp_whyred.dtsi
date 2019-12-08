@@ -1,4 +1,5 @@
 /* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -11,12 +12,13 @@
  */
 
 #include "sdm660-pinctrl.dtsi"
-#include "sdm660-camera-sensor-mtp.dtsi"
+#include "sdm660-camera-sensor-mtp_whyred.dtsi"
 / {
 	mtp_batterydata: qcom,battery-data {
 		qcom,batt-id-range-pct = <15>;
-		#include "fg-gen3-batterydata-l8866sun-3000mah.dtsi"
-		#include "fg-gen3-batterydata-l8866cos-3000mah.dtsi"
+		#include "fg-gen3-batterydata-l6650sun-4000mah.dtsi"
+		#include "fg-gen3-batterydata-l6650cos-4000mah.dtsi"
+		#include "fg-gen3-batterydata-l6650desay-4000mah.dtsi"
 	};
 };
 
@@ -128,13 +130,6 @@
 };
 
 &dsi_nt36672_tianma_fhd_video {
-	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
-	qcom,mdss-dsi-bl-min-level = <1>;
-	qcom,mdss-dsi-bl-max-level = <4095>;
-	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
-};
-
-&dsi_nt36672_jdi_fhd_video {
 	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
 	qcom,mdss-dsi-bl-min-level = <1>;
 	qcom,mdss-dsi-bl-max-level = <4095>;
@@ -275,9 +270,9 @@
 	compatible = "goodix,fingerprint";
 	interrupt-parent = <&tlmm>;
 	interrupt = <72 0x0>;
-        vcc_spi-supply = <&pm660l_l3>;
-	vcc_ana-supply = <&pm660l_l3>;
-	vdd_io-supply = <&pm660l_l3>;
+        vcc_spi_supply = <&pm660_l16>;
+	vcc_ana_supply = <&pm660_l16>;
+	vdd_io-supply = <&pm660_l16>;
 	fp-gpio-irq = <&tlmm 72 0x00>;
 	fp-gpio-reset = <&tlmm 20 0x00>;
 	status = "okay";
@@ -302,6 +297,18 @@
 		pinctrl-1 = <&msm_gpio_20_output_high>;
 		pinctrl-2 = <&msm_gpio_72>;
 	};
+	hall_switch {
+
+		compatible = "hall-switch,och175";
+		pinctrl-names = "hall_active","hall_suspend";
+		pinctrl-0 = <&hall_int_active>;
+		pinctrl-1 = <&hall_int_suspend>;
+		//interrupt-parent = <&msm_gpio>;
+		//interrupts = <0 107 3>;
+		vdd-io-supply= <&pm660_l8>;
+		interrupt-names = "hall_irq";
+	        hall,irq-gpio = <&tlmm 75 0x0>;
+	};
 	qcom,msm-ssc-sensors {
 		compatible = "qcom,msm-ssc-sensors";
 	};
@@ -317,16 +324,4 @@
 
 &pm660_fg {
 	qcom,battery-data = <&mtp_batterydata>;
-};
-
-&i2c_2 {
-	status = "ok";
-	smb1351-charger@1d {
-		compatible = "qcom,smb1351-charger";
-		reg = <0x1d>;
-		qcom,parallel-charger;
-		qcom,float-voltage-mv = <4400>;
-		qcom,recharge-mv = <100>;
-		qcom,parallel-en-pin-polarity = <1>;
-	};
 };

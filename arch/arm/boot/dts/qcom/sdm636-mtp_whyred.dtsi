@@ -11,8 +11,7 @@
  * GNU General Public License for more details.
  */
 
-#include "sdm660-mtp.dtsi"
-/*#include "sdm636-camera-sensor-mtp.dtsi"*/
+#include "sdm660-mtp_whyred.dtsi"
 / {
 };
 
@@ -42,3 +41,4 @@
 	qcom,mdss-dsi-bl-max-level = <4095>;
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
 };
+

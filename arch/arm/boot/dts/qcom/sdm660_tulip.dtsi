@@ -307,7 +307,7 @@
 					compatible = "android,system";
 					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/system";
 					type = "ext4";
-					mnt_flags = "ro,barrier=1,discard";
+					mnt_flags = "ro,barrier=1";
 					fsmgr_flags = "wait,verify";
 					status = "ok";
 				};
@@ -315,7 +315,7 @@
 					compatible = "android,vendor";
 					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/vendor";
 					type = "ext4";
-					mnt_flags = "ro,barrier=1,discard";
+					mnt_flags = "ro,barrier=1";
 					fsmgr_flags = "wait,verify";
 					status = "ok";
 				};
@@ -415,13 +415,6 @@
 		cont_splash_mem: splash_region@9d400000 {
 			reg = <0x0 0x9d400000 0x0 0x02400000>;
 			label = "cont_splash_mem";
-		};
-		pstore_reserve_mem: pstore_reserve_mem_region@0 {
-			linux,reserve-contiguous-region;
-			linux,reserve-region;
-			linux,remove-completely;
-			reg = <0x0 0xA0000000 0x0 0x00400000>;
-			label = "pstore_reserve_mem";
 		};
 	};
 
@@ -688,16 +681,6 @@
 		clock-names = "core", "iface";
 	};
 
-/*	qcom,qbt1000 {
-		compatible = "qcom,qbt1000";
-		clock-names = "core", "iface";
-		clocks = <&clock_gcc GCC_BLSP1_QUP3_SPI_APPS_CLK>,
-			<&clock_gcc GCC_BLSP1_AHB_CLK>;
-		clock-frequency = <15000000>;
-		qcom,ipc-gpio = <&tlmm 72 0>;
-		qcom,finger-detect-gpio = <&pm660_gpios 11 0>;
-	};
-*/
 	qcom,sensor-information {
 		compatible = "qcom,sensor-information";
 		sensor_information0: qcom,sensor-information-0 {
@@ -1626,7 +1609,7 @@
 	qcom,msm_fastrpc {
 		compatible = "qcom,msm-fastrpc-adsp";
 		qcom,fastrpc-glink;
-		qcom,fastrpc-vmid-heap-shared;
+                qcom,fastrpc-vmid-heap-shared;
 
 		qcom,msm_fastrpc_compute_cb1 {
 			compatible = "qcom,msm-fastrpc-compute-cb";
@@ -2219,7 +2202,7 @@
 		qcom,qsee-ce-hw-instance = <0>;
 		qcom,disk-encrypt-pipe-pair = <2>;
 		qcom,support-fde;
-		qcom,fde-key-size;
+		/*qcom,fde-key-size;*/
 		qcom,no-clock-support;
 		qcom,msm-bus,name = "qseecom-noc";
 		qcom,msm-bus,num-cases = <4>;
@@ -2236,7 +2219,7 @@
 			<&clock_rpmcc QSEECOM_CE1_CLK>,
 			<&clock_rpmcc QSEECOM_CE1_CLK>;
 		qcom,ce-opp-freq = <171430000>;
-		qcom,qsee-reentrancy-support = <0>;
+		qcom,qsee-reentrancy-support = <2>;
 	};
 
 	qcom_cedev: qcedev@1de0000{
@@ -2533,7 +2516,7 @@
 
 #include "sdm660-ion.dtsi"
 #include "sdm660-bus.dtsi"
-#include "msm-pm660.dtsi"
+#include "msm-pm660_tulip.dtsi"
 #include "msm-pm660l.dtsi"
 #include "msm-pm660-rpm-regulator.dtsi"
 #include "msm-pm660l-rpm-regulator.dtsi"
@@ -2631,7 +2614,7 @@
 
 #include "msm-arm-smmu-660.dtsi"
 #include "msm-arm-smmu-impl-defs-660.dtsi"
-#include "sdm660-common.dtsi"
+#include "sdm660-common_tulip.dtsi"
 #include "sdm660-blsp.dtsi"
 #include "msm-rdbg.dtsi"
 #include "sdm660-camera.dtsi"
